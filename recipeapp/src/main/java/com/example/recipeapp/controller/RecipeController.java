@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,13 +20,16 @@ public class RecipeController {
     @Autowired
     private RecipeRepository recipeRepository;
 
-    // Get all recipes
     @GetMapping
     public List<Recipes> getAllRecipes() {
         return recipeRepository.findAll();
     }
 
-    // Save a recipe
+    @GetMapping("/{id}")
+    public Recipes getRecipeById(@PathVariable Long id) {
+        return recipeRepository.findById(id).orElse(null);
+    }
+
     @PostMapping
     public Recipes saveRecipe(@RequestBody Recipes recipe) {
         return recipeRepository.save(recipe);
