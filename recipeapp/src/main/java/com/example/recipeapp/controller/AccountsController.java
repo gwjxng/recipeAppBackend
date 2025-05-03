@@ -1,0 +1,41 @@
+package com.example.recipeapp.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.recipeapp.model.Accounts;
+import com.example.recipeapp.repository.AccountsRepository;
+
+@RestController
+@RequestMapping("/accounts")
+@CrossOrigin(origins = "http://localhost:5173") 
+public class AccountsController {
+
+    @Autowired
+    private AccountsRepository accountRepository;
+
+    // Register a new account
+    @PostMapping("/register")
+    public Accounts registerAccount(@RequestBody Accounts account) {
+        return accountRepository.save(account);
+    }
+
+    // Login (simple, no JWT/session for now)
+    @PostMapping("/login")
+    public String login(@RequestBody Accounts loginAttempt) {
+        Accounts account = accountRepository.findByUsernameAndPassword(
+            loginAttempt.getUsername(), 
+            loginAttempt.getPassword()
+    );
+
+        if (account != null && account.getPassword().equals(loginAttempt.getPassword())) {
+            return String.valueOf(account.getId());
+        } else {
+            return "false";
+        }
+    }
+}

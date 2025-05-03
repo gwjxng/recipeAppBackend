@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.recipeapp.model.Recipes;
@@ -21,9 +22,21 @@ public class RecipeController {
     private RecipeRepository recipeRepository;
 
     @GetMapping
-    public List<Recipes> getAllRecipes() {
-        return recipeRepository.findAll();
+    public List<Recipes> getRecipes(
+        @RequestParam(required = false) String query,
+        @RequestParam(required = false) String difficulty
+    ) {
+        if ((query != null && !query.isEmpty()) && (difficulty != null && !difficulty.isEmpty())) {
+            return recipeRepository.findByTitleContainingAndDifficulty(query, difficulty);
+        } else if (query != null && !query.isEmpty()) {
+            return recipeRepository.searchByTitle(query);
+        } else if (difficulty != null && !difficulty.isEmpty()) {
+            return recipeRepository.findByDifficulty(difficulty);
+        } else {
+            return recipeRepository.findAll();
+        }
     }
+    
 
     @GetMapping("/{id}")
     public Recipes getRecipeById(@PathVariable Long id) {
