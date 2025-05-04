@@ -1,5 +1,6 @@
 package com.example.recipeapp.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,7 +19,9 @@ public class Recipes {
     private String image_url;
     private String created_date;
     private String creator_name;
-    private Long creator_id;
+    
+    @Column(name = "creator_id")
+    private Long creatorId;
 
 
     // Getters and Setters
@@ -79,10 +82,10 @@ public class Recipes {
     }
 
     public Long getCreator_id() {
-        return creator_id;
+        return creatorId;
     }
 
-    public void setCreator_id(Long creator_id) {
-        this.creator_id = creator_id;
+    public void setCreator_id(Long creatorId) {
+        this.creatorId = creatorId;
     }
 }

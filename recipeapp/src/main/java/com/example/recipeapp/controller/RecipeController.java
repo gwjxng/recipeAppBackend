@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,14 +38,31 @@ public class RecipeController {
         }
     }
     
-
     @GetMapping("/{id}")
     public Recipes getRecipeById(@PathVariable Long id) {
         return recipeRepository.findById(id).orElse(null);
     }
 
+    @GetMapping("/your-recipes/{creatorId}")
+    public List<Recipes> getRecipesByCreator(@PathVariable Long creatorId) {
+        return recipeRepository.findByCreatorId(creatorId);
+    }
+
     @PostMapping
     public Recipes saveRecipe(@RequestBody Recipes recipe) {
         return recipeRepository.save(recipe);
+    }
+
+    @PutMapping("/{recipeId}")
+    public Recipes updateRecipe(@PathVariable Long recipeId, @RequestBody Recipes updatedRecipe) {
+        return recipeRepository.findById(recipeId)
+            .map(existingRecipe -> {
+                existingRecipe.setTitle(updatedRecipe.getTitle());
+                existingRecipe.setInstructions(updatedRecipe.getInstructions());
+                existingRecipe.setDifficulty(updatedRecipe.getDifficulty());
+                existingRecipe.setImage_url(updatedRecipe.getImage_url());
+                return recipeRepository.save(existingRecipe);
+            })
+            .orElseThrow(() -> new RuntimeException("Ingredient not found"));
     }
 }

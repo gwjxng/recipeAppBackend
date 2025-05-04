@@ -5,9 +5,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -56,5 +58,28 @@ public class IngredientsController {
 
         return savedIngredients;
     }
+
+    @PutMapping("/{ingredientId}")
+    public Ingredients updateIngredient(@PathVariable Long ingredientId, @RequestBody Ingredients updatedIngredient) {
+        return ingredientsRepository.findById(ingredientId)
+            .map(existingIngredient -> {
+                existingIngredient.setIngredient_name(updatedIngredient.getIngredient_name());
+
+                Long recipeId = updatedIngredient.getRecipe().getId();
+                Recipes recipe = recipesRepository.findById(recipeId)
+                    .orElseThrow(() -> new RuntimeException("Recipe not found"));
+
+                existingIngredient.setRecipe(recipe);
+
+                return ingredientsRepository.save(existingIngredient);
+            })
+            .orElseThrow(() -> new RuntimeException("Ingredient not found"));
+    }
+
+    @DeleteMapping("/{ingredientId}")
+    public void deleteIngredient(@PathVariable Long ingredientId) {
+        ingredientsRepository.deleteById(ingredientId);
+    }
+
 }
 

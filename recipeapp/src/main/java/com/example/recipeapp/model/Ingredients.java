@@ -45,4 +45,8 @@ public class Ingredients {
     public void setIngredient_name(String ingredient_name) {
         this.ingredient_name = ingredient_name;
     }
+
+    public Long getRecipeId() {
+        return recipe != null ? recipe.getId() : null;
+    }
 }
