@@ -4,8 +4,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Recipes {
@@ -20,10 +18,8 @@ public class Recipes {
     private String image_url;
     private String created_date;
     private String creator_name;
-    
-    @ManyToOne
-    @JoinColumn(name = "creator_id", nullable = false)
-    private Accounts creator_id;
+    private Long creator_id;
+
 
     // Getters and Setters
     public Long getId() {
@@ -82,11 +78,11 @@ public class Recipes {
         this.created_date = created_date;
     }
 
-    public Accounts getRecipe() {
+    public Long getCreator_id() {
         return creator_id;
     }
 
-    public void setRecipe(Accounts creator_id) {
+    public void setCreator_id(Long creator_id) {
         this.creator_id = creator_id;
     }
 }

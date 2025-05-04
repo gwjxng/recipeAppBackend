@@ -17,6 +17,4 @@ public interface RecipeRepository extends JpaRepository<Recipes, Long> {
 
     @Query("SELECT r FROM Recipes r WHERE LOWER(r.title) LIKE LOWER(CONCAT('%', :title, '%')) AND r.difficulty = :difficulty")
     List<Recipes> findByTitleContainingAndDifficulty(@Param("title") String title, @Param("difficulty") String difficulty);
-
-    List<Recipes> findByCreator_Id(Long creatorId);
 }
