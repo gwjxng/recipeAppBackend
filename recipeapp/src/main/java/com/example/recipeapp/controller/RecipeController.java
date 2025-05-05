@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +22,7 @@ import com.example.recipeapp.repository.RecipeRepository;
 
 @RestController
 @RequestMapping("/recipes")
+@CrossOrigin(origins = "https://lta-recipe-app-5517f49e6ce9.herokuapp.com") 
 public class RecipeController {
 
     @Autowired
