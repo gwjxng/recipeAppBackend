@@ -12,7 +12,7 @@ import com.example.recipeapp.repository.AccountsRepository;
 
 @RestController
 @RequestMapping("/accounts")
-@CrossOrigin(origins = "https://lta-recipe-app-5517f49e6ce9.herokuapp.com/") 
+@CrossOrigin(origins = "https://lta-recipe-app-5517f49e6ce9.herokuapp.com") 
 public class AccountsController {
 
     @Autowired
