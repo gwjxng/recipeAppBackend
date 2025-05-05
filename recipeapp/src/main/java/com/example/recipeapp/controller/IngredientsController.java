@@ -39,20 +39,16 @@ public class IngredientsController {
         List<Ingredients> savedIngredients = new ArrayList<>();
 
         for (Map<String, Object> ingredientData : ingredientsList) {
-            // Extract ingredient_name and recipe_id from the data
-            String ingredientName = (String) ingredientData.get("ingredient_name");  // Expecting 'ingredient_name'
+            String ingredientName = (String) ingredientData.get("ingredient_name");  
             Long recipeId = ((Number) ingredientData.get("recipe_id")).longValue();
 
-            // Find the recipe using recipe_id
             Recipes recipe = recipesRepository.findById(recipeId)
                     .orElseThrow(() -> new RuntimeException("Recipe not found"));
 
-            // Create a new Ingredients object and set the recipe
             Ingredients ingredient = new Ingredients();
-            ingredient.setIngredient_name(ingredientName);  // Set the 'ingredient_name'
-            ingredient.setRecipe(recipe);  // Set the associated recipe
+            ingredient.setIngredient_name(ingredientName);  
+            ingredient.setRecipe(recipe);  
 
-            // Save and add to list
             savedIngredients.add(ingredientsRepository.save(ingredient));
         }
 

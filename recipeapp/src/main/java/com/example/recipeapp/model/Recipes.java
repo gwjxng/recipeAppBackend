@@ -23,8 +23,6 @@ public class Recipes {
     @Column(name = "creator_id")
     private Long creatorId;
 
-
-    // Getters and Setters
     public Long getId() {
         return id;
     }

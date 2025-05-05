@@ -18,24 +18,22 @@ public class AccountsController {
     @Autowired
     private AccountsRepository accountRepository;
 
-    // Register a new account
     @PostMapping("/register")
     public Accounts registerAccount(@RequestBody Accounts account) {
         return accountRepository.save(account);
     }
 
-    // Login (simple, no JWT/session for now)
     @PostMapping("/login")
     public String login(@RequestBody Accounts loginAttempt) {
-        Accounts account = accountRepository.findByUsernameAndPassword(
-            loginAttempt.getUsername(), 
-            loginAttempt.getPassword()
-    );
+        Accounts account = accountRepository.findByUsername(loginAttempt.getUsername());
 
-        if (account != null && account.getPassword().equals(loginAttempt.getPassword())) {
-            return String.valueOf(account.getId());
-        } else {
-            return "false";
+        if (account != null){
+            if (account.getPassword().equals(loginAttempt.getPassword())) {
+                return String.valueOf(account.getId());
+            } else {
+                return "wrong password";
+            }
         }
+        return "account not found";
     }
 }

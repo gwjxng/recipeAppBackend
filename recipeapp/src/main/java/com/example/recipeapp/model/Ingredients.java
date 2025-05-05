@@ -16,12 +16,10 @@ public class Ingredients {
 
     private String ingredient_name;
 
-    // Use @JoinColumn to specify the actual column name in the database
     @ManyToOne
     @JoinColumn(name = "recipe_id", nullable = false)
     private Recipes recipe;
 
-    // Getters and Setters
     public Long getId() {
         return id;
     }
