@@ -1,10 +1,14 @@
 package com.example.recipeapp.model;
 
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Recipes {
@@ -22,6 +26,9 @@ public class Recipes {
     
     @Column(name = "creator_id")
     private Long creatorId;
+
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Ingredients> ingredients;
 
     public Long getId() {
         return id;
